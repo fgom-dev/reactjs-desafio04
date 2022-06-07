@@ -1,42 +1,66 @@
-import { useRef } from 'react';
+import { Component, createRef, FormEvent, useState } from 'react';
 import { FiCheckSquare } from 'react-icons/fi';
 
 import { Form } from './styles';
 import Modal from '../Modal';
 import Input from '../Input';
 
-interface AddFood {
-  image: string;
-  name: string;
-  price: string;
-  description: string;
-}
-
 interface ModalAddFoodProps {
-  isOpen: boolean;  
+  isOpen: boolean;
   setIsOpen: () => void;
-  handleAddFood: (data:AddFood) => void;
+  handleAddFood: () => void;
 }
 
-function ModalAddFood({ isOpen, handleAddFood, setIsOpen }: ModalAddFoodProps) {
-  const formRef = useRef(null); 
+export function ModalAddFood({ isOpen, setIsOpen, handleAddFood }: ModalAddFoodProps) {
+  // constructor(props) {
+  //   super(props);
 
-  const handleSubmit = async (data: AddFood) => {
-    handleAddFood(data);
+  //   this.formRef = createRef();
+  // }
+
+  const [image, setImage] = useState('');
+  const [price, setPrice] = useState(0);
+  const [description, setDescription] = useState('');
+  const [name, setName] = useState('');
+
+  async function handleSubmit(){    
+    handleAddFood();
+
     setIsOpen();
-  };  
+  };
 
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <Form ref={formRef} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <h1>Novo Prato</h1>
-        <Input name="image" placeholder="Cole o link aqui" />
+        <Input           
+          name="image" 
+          placeholder="Cole o link aqui"                    
+        />
 
-        <Input name="name" placeholder="Ex: Moda Italiana" />
+        <input 
+          type="text"
+          name="name" 
+          placeholder="Ex: Moda Italiana" 
+          value={name} 
+          onChange={event => setName(event.target.value)} 
+        />
 
-        <Input name="price" placeholder="Ex: 19.90" />
+        <input 
+          type="number"
+          name="price" 
+          placeholder="Ex: 19.90" 
+          value={price} 
+          onChange={event => setPrice(Number(event.target.value))} 
+        />
 
-        <Input name="description" placeholder="Descrição" />
+        <input 
+          type="text"
+          name="description" 
+          placeholder="Descrição" 
+          value={description} 
+          onChange={event => setDescription(event.target.value)} 
+        />
 
         <button type="submit" data-testid="add-food-button">
           <p className="text">Adicionar Prato</p>
