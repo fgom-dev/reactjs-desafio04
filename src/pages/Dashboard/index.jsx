@@ -24,12 +24,12 @@ class Dashboard extends Component {
     this.setState({ foods: response.data });
   }
 
-  handleAddFood = async food => {
-    const { foods } = this.state;
+  async handleAddFood(foodInput) {
+    const { foods } = this.state;    
 
     try {
       const response = await api.post('/foods', {
-        ...food,
+        ...foodInput,
         available: true,
       });
 
@@ -66,7 +66,7 @@ class Dashboard extends Component {
     const foodsFiltered = foods.filter(food => food.id !== id);
 
     this.setState({ foods: foodsFiltered });
-  }
+  }  
 
   toggleModal = () => {
     const { modalOpen } = this.state;
@@ -89,10 +89,10 @@ class Dashboard extends Component {
 
     return (
       <>
-        <Header openModal={this.toggleModal} />
+        <Header openModal={this.toggleModal} />        
         <ModalAddFood
           isOpen={modalOpen}
-          setIsOpen={this.toggleModal}
+          setIsOpen={this.handleOpenNewFoodModal}
           handleAddFood={this.handleAddFood}
         />
         <ModalEditFood
