@@ -5,10 +5,12 @@ import Modal from '../Modal';
 import Input from '../Input';
 
 interface AddFood {
-  image: string;
+  id: number;
   name: string;
-  price: string;
   description: string;
+  price: number;
+  available: boolean;
+  image: string;
 }
 
 interface ModalAddFoodProps {
